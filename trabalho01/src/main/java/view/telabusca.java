@@ -46,7 +46,7 @@ public class telabusca extends javax.swing.JFrame {
 
         jTextField1.setEditable(false);
 
-        jLabel2.setText("QTD");
+        jLabel2.setText("Quantidade");
 
         jTextField2.setEditable(false);
 
