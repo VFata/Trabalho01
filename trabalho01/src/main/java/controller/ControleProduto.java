@@ -24,14 +24,14 @@ public class ControleProduto {
     }
     
     public void modificar (Object produto, int index){
-        produtos.set(index, produto);
-        
+        produtos.set(index, produto);        
     }
     
     public Object listarTodos (){
         return produtos;
-    }
-    
-    
-    
+    }        
+            
+    public  Object buscar(int index){
+        return produtos.get(index);
+    }            
 }
