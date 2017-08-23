@@ -11,6 +11,12 @@ package model;
  */
 public class Produto {
     
+    private Integer id; 
+    private String nome;
+    private String descricao;
+    private double precovenda;
+    private double precocompra;
+    
     
     
 }
