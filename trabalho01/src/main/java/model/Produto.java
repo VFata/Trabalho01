@@ -5,10 +5,6 @@
  */
 package model;
 
-/**
- *
- * @author Tron
- */
 public class Produto {
     
     private Integer id; 
