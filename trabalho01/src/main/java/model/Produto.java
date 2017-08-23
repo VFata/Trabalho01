@@ -17,6 +17,7 @@ public class Produto {
     private double precovenda;
     private double precocompra;
     private int quantidade;
+    private boolean deletado;
 
     public Produto(Integer id, String nome, String descricao, double precovenda, double precocompra, int quantidade) {
         this.id = id;
@@ -25,6 +26,15 @@ public class Produto {
         this.precovenda = precovenda;
         this.precocompra = precocompra;
         this.quantidade = quantidade;
+        this.deletado = false;
+    }
+
+    public boolean isDeletado() {
+        return deletado;
+    }
+
+    public void setDeletado(boolean deletado) {
+        this.deletado = deletado;
     }
 
     public Integer getId() {
@@ -74,10 +84,16 @@ public class Produto {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-
+    
+    public void setProduto(Produto outroProduto) {
         
-    
-    
-    
-    
+        this.id = outroProduto.id;
+        this.nome = outroProduto.nome;
+        this.descricao = outroProduto.descricao;
+        this.precocompra = outroProduto.precocompra;
+        this.precovenda = outroProduto.precovenda;
+        this.quantidade = outroProduto.quantidade;
+        this.deletado = outroProduto.deletado;
+        
+    }
 }
