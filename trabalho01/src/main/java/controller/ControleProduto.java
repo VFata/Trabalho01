@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.ArrayList;
+import model.Produto;
 
 /**
  *
@@ -15,23 +16,26 @@ public class ControleProduto {
     
     public ArrayList <Object> produtos = new ArrayList<>();
     
-    public void criarNovo (Object produto) {
+    public void criarNovo (Produto produto) {
+        // validar novo
         produtos.add(produto);
     }
     
-    public void deletar (int index){
+    public void deletar (int index) {
         produtos.remove(index);
     }
     
-    public void modificar (Object produto, int index){
+    public void modificar (Produto produto, int index) {
+        // validar alteracao
         produtos.set(index, produto);        
     }
     
-    public Object listarTodos (){
+    public Object listarTodos () {
         return produtos;
     }        
             
-    public  Object buscar(int index){
+    public  Object buscar(int index) {
+        // busca por nome
         return produtos.get(index);
     }            
 }

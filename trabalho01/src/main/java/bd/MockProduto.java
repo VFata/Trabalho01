@@ -7,7 +7,6 @@ package bd;
 
 import model.Produto;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class MockProduto {
         if (produtoBusca != null && produtoBusca.getId() != null && !listaProdutos.isEmpty()) {
             for (Produto produto : listaProdutos) {
                 if (produto != null && produto.getId().equals(produtoBusca.getId())) {
-                    produto.setProduto(produtoBusca);
+                    produto = produtoBusca;
                     break;
                 }
             }
@@ -46,8 +45,8 @@ public class MockProduto {
             for (int i = 0; i < listaProdutos.size(); i++) {
                 Produto produto = listaProdutos.get(i);
                 if (produto != null && produto.getId().equals(id)) {
-                    //listaProdutos.remove(i);
-                    produto.setDeletado(true);
+                    listaProdutos.remove(i);
+                    //produto.setDeletado(true);
                     break;
                 }
             }
@@ -57,7 +56,7 @@ public class MockProduto {
     //Lista todos os produtos
     public static List<Produto> listar() throws Exception {
         return listaProdutos.stream()
-                .filter((Produto p) -> !p.isDeletado())
+                //.filter((Produto p) -> !p.isDeletado())
                 .collect(Collectors.toList());
     }
 
@@ -68,17 +67,8 @@ public class MockProduto {
         List<Produto> listaResultado = new ArrayList<>();
         
         if (valor != null && !listaProdutos.isEmpty()) {
-            /*
-            for (Produto produto : listaProdutos) {
-                if (produto != null && !produto.isDeletado() &&
-                    produto.getNome() != null) {
-                    if (produto.getNome().toUpperCase().contains(valor.toUpperCase())) {
-                        listaResultado.add(produto);
-                    }
-                }
-            }*/
             listaResultado = listaProdutos.stream()
-                .filter((Produto p) -> !p.isDeletado() && p.getNome() != null && p.getNome().toUpperCase().contains(valor.toUpperCase()))
+                .filter((Produto p) -> /*!p.isDeletado() &&*/ p.getNome() != null && p.getNome().toUpperCase().contains(valor.toUpperCase()))
                 .collect(Collectors.toList());
             
         }
@@ -94,14 +84,6 @@ public class MockProduto {
                     .filter((Produto p) -> p.getId().equals(id))
                     .findFirst()
                     .get();
-            /*
-            for (int i = 0; i < listaProdutos.size(); i++) {
-                if (listaProdutos.get(i) != null && 
-                        listaProdutos.get(i).getId().equals(id)) {
-                    return listaProdutos.get(i);
-                }                
-            }
-            */
         }
         return null;
     }

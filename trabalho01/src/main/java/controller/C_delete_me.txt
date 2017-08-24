@@ -1,1 +1,0 @@
-Os controladores devem ficar neste pacote.

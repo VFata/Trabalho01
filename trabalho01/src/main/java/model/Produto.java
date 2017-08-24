@@ -5,91 +5,114 @@
  */
 package model;
 
+import java.util.GregorianCalendar;
+
 public class Produto {
+    private static final String[] CATEGORIAS = {"sem categoria", "categoria 1"};
     
     private Integer id; 
     private String nome;
     private String descricao;
-    private double precovenda;
-    private double precocompra;
-    private int quantidade;
-    private boolean deletado;
+    private double precoVenda;
+    private double precoCompra;
+    private int categoria;
+    private String imagem;
+    private GregorianCalendar dataCriacao;
 
-    public Produto(Integer id, String nome, String descricao, double precovenda, double precocompra, int quantidade) {
+    public Produto() {
+        this.id = -1;
+    }
+    
+    public Produto(String nome, String descricao, double precoVenda, 
+            double precoCompra, int categoria, String imagem) {
+        this.id = -1;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.precoVenda = precoVenda;
+        this.precoCompra = precoCompra;
+        this.categoria = categoria;
+        this.imagem = imagem;
+    }
+    
+    public Produto(Integer id, String nome, String descricao, double precoVenda,
+            double precoCompra, int categoria, String imagem, 
+            GregorianCalendar dataCriacao) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
-        this.precovenda = precovenda;
-        this.precocompra = precocompra;
-        this.quantidade = quantidade;
-        this.deletado = false;
-    }
-
-    public boolean isDeletado() {
-        return deletado;
-    }
-
-    public void setDeletado(boolean deletado) {
-        this.deletado = deletado;
+        this.precoVenda = precoVenda;
+        this.precoCompra = precoCompra;
+        this.categoria = categoria;
+        this.imagem = imagem;
+        this.dataCriacao = dataCriacao;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public double getPrecovenda() {
-        return precovenda;
-    }
-
-    public double getPrecocompra() {
-        return precocompra;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
-    public void setPrecovenda(double precovenda) {
-        this.precovenda = precovenda;
+    public double getPrecoVenda() {
+        return precoVenda;
     }
 
-    public void setPrecocompra(double precocompra) {
-        this.precocompra = precocompra;
+    public void setPrecoVenda(double precoVenda) {
+        this.precoVenda = precoVenda;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public double getPrecoCompra() {
+        return precoCompra;
     }
-    
-    public void setProduto(Produto outroProduto) {
-        
-        this.id = outroProduto.id;
-        this.nome = outroProduto.nome;
-        this.descricao = outroProduto.descricao;
-        this.precocompra = outroProduto.precocompra;
-        this.precovenda = outroProduto.precovenda;
-        this.quantidade = outroProduto.quantidade;
-        this.deletado = outroProduto.deletado;
-        
+
+    public void setPrecoCompra(double precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+
+    public int getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(int categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public GregorianCalendar getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(GregorianCalendar dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" + "id=" + id + ", nome=" + nome + '}';
     }
 }
