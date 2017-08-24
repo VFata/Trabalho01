@@ -5,7 +5,6 @@
  */
 package view;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import;
 import controller.ControleProduto;
 import java.io.File;
 import java.util.ArrayList;

@@ -10,7 +10,8 @@ package view;
  * @author diego
  */
 public class ListaProduto extends javax.swing.JFrame {
-
+    FormProduto formProduto = null;
+    
     /**
      * Creates new form lista
      */
@@ -67,7 +68,7 @@ public class ListaProduto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Selecionar");
+        jButton1.setText("Visualizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -158,7 +159,9 @@ public class ListaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        formProduto = new FormProduto(FormProduto.MODO_CRIAR);
+        
+        formProduto.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
