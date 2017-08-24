@@ -5,7 +5,7 @@
  */
 package controller;
 
-import java.util.ArrayList;
+import bd.MockProduto;
 import model.Produto;
 
 /**
@@ -13,29 +13,23 @@ import model.Produto;
  * @author Igor
  */
 public class ControleProduto {
-    
-    public ArrayList <Object> produtos = new ArrayList<>();
-    
-    public void criarNovo (Produto produto) {
-        // validar novo
-        produtos.add(produto);
+
+    public static void criarNovo(Produto produto) throws Exception {
+        //VALIDADOR
+
+        MockProduto.inserir(produto);
     }
-    
-    public void deletar (int index) {
-        produtos.remove(index);
+
+    public static void atualizarProduto(Produto produto) throws Exception {
+        //VALIDADOR
+
+        MockProduto.atualizar(produto);
     }
-    
-    public void modificar (Produto produto, int index) {
-        // validar alteracao
-        produtos.set(index, produto);        
+
+    public static void excluir(Produto produto) throws Exception {
+        //VALIDADOR
+
+        MockProduto.excluir(produto.getId());
     }
-    
-    public Object listarTodos () {
-        return produtos;
-    }        
-            
-    public  Object buscar(int index) {
-        // busca por nome
-        return produtos.get(index);
-    }            
+
 }
