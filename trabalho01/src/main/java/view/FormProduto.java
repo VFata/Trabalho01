@@ -220,7 +220,7 @@ public class FormProduto extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
      
         
-        if () {
+        if (modo == 0) {
             Produto produto = new Produto();
 
             produto.setNome(txtNome.getText());
@@ -235,6 +235,22 @@ public class FormProduto extends javax.swing.JFrame {
                 Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+        }else{
+            
+            Produto produto = new Produto();
+
+            produto.setNome(txtNome.getText());
+            produto.setDescricao(txtDesc.getText());
+            produto.setPrecoCompra(Integer.parseInt(txtValorCompra.getText()));
+            produto.setPrecoVenda(Integer.parseInt(txtValorVenda.getText()));
+            produto.setCategoria(comboCategoria.getSelectedIndex());
+
+            try {
+                ControleProduto.atualizarProduto(produto);
+            } catch (Exception ex) {
+                Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
