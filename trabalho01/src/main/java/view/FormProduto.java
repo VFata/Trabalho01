@@ -219,6 +219,8 @@ public class FormProduto extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
      
+        
+    if(){    
      Produto produto = new Produto();
      
      produto.setNome(txtNome.getText());
@@ -233,7 +235,9 @@ public class FormProduto extends javax.swing.JFrame {
             ControleProduto.criarNovo(produto);
         } catch (Exception ex) {
             Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        }
+        
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
