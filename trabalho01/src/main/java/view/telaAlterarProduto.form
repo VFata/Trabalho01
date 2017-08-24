@@ -216,7 +216,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Adicionar Img"/>
+        <Property name="text" type="java.lang.String" value="Alterar Img"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">

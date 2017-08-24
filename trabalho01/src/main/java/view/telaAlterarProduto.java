@@ -11,14 +11,14 @@ import model.Produto;
  *
  * @author 6022990
  */
-public class telaNovoProduto extends javax.swing.JFrame {
+public class telaAlterarProduto extends javax.swing.JFrame {
 
     public int id = 0;
     
     /**
      * Creates new form telaNovoProduto
      */
-    public telaNovoProduto() {
+    public telaAlterarProduto() {
         initComponents();
     }
 
@@ -88,7 +88,7 @@ public class telaNovoProduto extends javax.swing.JFrame {
             .addGap(0, 232, Short.MAX_VALUE)
         );
 
-        jButton2.setText("Adicionar Img");
+        jButton2.setText("Alterar Img");
 
         jLabel7.setText("Preço de Compra:");
 
@@ -208,20 +208,21 @@ public class telaNovoProduto extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(telaNovoProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaAlterarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(telaNovoProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaAlterarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(telaNovoProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaAlterarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(telaNovoProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaAlterarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new telaNovoProduto().setVisible(true);
+                new telaAlterarProduto().setVisible(true);
             }
         });
     }
