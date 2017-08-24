@@ -21,25 +21,25 @@ public class ControleProduto {
     }
 
     public static void atualizarProduto(Produto produto) throws Exception {
-       //VALIDADOR
-
+        validarEditarProduto.validarEditarProduto(produto);
         MockProduto.atualizar(produto);
     }
 
     public static void excluir(Produto produto) throws Exception {
-        //VALIDADOR
+        validarNovoProduto.validarNovoProduto(produto);
 
         MockProduto.excluir(produto.getId());
-    }    
-    public static List<Produto> listar (String nomeProduto) throws Exception{
-        if (nomeProduto == null || nomeProduto.isEmpty()){
-            return MockProduto.listar();            
-        }
-        else {
+    }
+
+    public static List<Produto> listar(String nomeProduto) throws Exception {
+        if (nomeProduto == null || nomeProduto.isEmpty()) {
+            return MockProduto.listar();
+        } else {
             return MockProduto.procurar(nomeProduto);
-        }                       
-    }    
-    public static Produto obterProduto (Integer id) throws Exception{
-        return MockProduto.obter(id);   
+        }
+    }
+
+    public static Produto obterProduto(Integer id) throws Exception {
+        return MockProduto.obter(id);
     }
 }
