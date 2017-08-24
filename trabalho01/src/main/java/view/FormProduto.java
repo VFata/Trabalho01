@@ -9,6 +9,8 @@ import controller.ControleProduto;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Produto;
@@ -216,28 +218,22 @@ public class FormProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-     Produto Produto = new Produto(); 
-     String nome = txtNome.getText();
-     String descricao = txtDesc.getText();
-     double precoVenda = Double.parseDouble(txtValorVenda.getText());
-     double precoCompra = Double.parseDouble(txtValorCompra.getText());
-     /* Não manjo*/
-     int categoria = 0;
-     String imagem = "a";
-     GregorianCalendar dataCriacao = null;
-     /* */   
+     
+     Produto produto = new Produto();
+     
+     produto.setNome(txtNome.getText());
+     produto.setDescricao(txtDesc.getText());
+     produto.setPrecoCompra(Integer.parseInt(txtValorCompra.getText()));
+     produto.setPrecoVenda(Integer.parseInt(txtValorVenda.getText()));
+     produto.setCategoria(comboCategoria.getSelectedIndex());
      
      
-    Produto.setNome(nome);
-    Produto.setCategoria(categoria);
-    Produto.setDataCriacao(dataCriacao);
-    Produto.setImagem(imagem);
-    Produto.setPrecoCompra(precoCompra);
-    Produto.getPrecoVenda();
-        
-    
-    
-       
+     
+        try {
+            ControleProduto.criarNovo(produto);
+        } catch (Exception ex) {
+            Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
