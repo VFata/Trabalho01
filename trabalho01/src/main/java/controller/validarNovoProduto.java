@@ -1,30 +1,29 @@
 package controller;
 
 import javax.swing.JOptionPane;
+import model.Produto;
 
 public class validarNovoProduto {
 
-    public static boolean validarNovoProduto(String nome, String descricao,
-            double precoVenda, double precoCompra, int categoria, String imagem) {
+    public static boolean validarNovoProduto(Produto produto) {
 
-        if (nome.equals(null) || nome.equals(" ")) {
+        if (produto.getNome() == null || produto.getNome().equals(" ")) {
             JOptionPane.showMessageDialog(null, "Favor inserir um nome");
         }
-        if (descricao.equals(null) || descricao.equals(" ")) {
+        if (produto.getDescricao() == null || produto.getDescricao().equals(" ")) {
             JOptionPane.showMessageDialog(null, "Favor inserir uma descrição");
         }
-        if (precoVenda == 0) {
+        if (produto.getPrecoVenda() == 0) {
             JOptionPane.showMessageDialog(null, "Favor inserir um preço de venda");
         }
-        if (precoCompra == 0) {
+        if (produto.getPrecoCompra() == 0) {
             JOptionPane.showMessageDialog(null, "Favor inserir um preço de compra");
         }
-        if (categoria == 0) {
+        if (produto.getCategoria() == 0) {
             JOptionPane.showMessageDialog(null, "Favor inserir uma categoria");
         }
-        if (imagem.equals(null) || imagem.equals(" ")) {
+        if (produto.getImagem() == null || produto.getImagem().equals(" ")) {
             JOptionPane.showMessageDialog(null, "Favor inserir uma imagem");
-
         }
         return true;
 

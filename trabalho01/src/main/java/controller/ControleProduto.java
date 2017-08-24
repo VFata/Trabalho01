@@ -6,6 +6,7 @@
 package controller;
 
 import bd.MockProduto;
+import java.util.List;
 import model.Produto;
 
 /**
@@ -15,13 +16,12 @@ import model.Produto;
 public class ControleProduto {
 
     public static void criarNovo(Produto produto) throws Exception {
-        //VALIDADOR
-
+        validarNovoProduto.validarNovoProduto(produto);
         MockProduto.inserir(produto);
     }
 
     public static void atualizarProduto(Produto produto) throws Exception {
-        //VALIDADOR
+       //VALIDADOR
 
         MockProduto.atualizar(produto);
     }
@@ -30,6 +30,16 @@ public class ControleProduto {
         //VALIDADOR
 
         MockProduto.excluir(produto.getId());
+    }    
+    public static List<Produto> listar (String nomeProduto) throws Exception{
+        if (nomeProduto == null || nomeProduto.isEmpty()){
+            return MockProduto.listar();            
+        }
+        else {
+            return MockProduto.procurar(nomeProduto);
+        }                       
+    }    
+    public static Produto obterProduto (Integer id) throws Exception{
+        return MockProduto.obter(id);   
     }
-
 }
