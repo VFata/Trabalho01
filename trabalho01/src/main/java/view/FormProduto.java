@@ -37,7 +37,9 @@ public class FormProduto extends javax.swing.JFrame {
         initComponents();
         this.modo = modo;
         
-        if (modo == MODO_ALTERAR) {
+        if (modo == MODO_CRIAR) {
+            produto = new Produto();
+        } else if (modo == MODO_ALTERAR) {
             try {
                 produto = ControleProduto.obterProduto(id);
                 
@@ -46,18 +48,11 @@ public class FormProduto extends javax.swing.JFrame {
                 txtValorCompra.setText(Double.toString(produto.getPrecoCompra()));
                 txtValorVenda.setText(Double.toString(produto.getPrecoVenda()));
                 comboCategoria.setSelectedIndex(produto.getCategoria());
-                
-                BufferedImage img = ImageIO.read(new File(produto.getImagem()));
-                ImageIcon icon = new ImageIcon(img.getScaledInstance(140, 140, Image.SCALE_AREA_AVERAGING));
-                jLabel1.setText("");
-                jLabel1.setIcon(icon);
-                
+                trocaImagem();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            produto = new Produto();
         }
     }
 
@@ -249,24 +244,25 @@ public class FormProduto extends javax.swing.JFrame {
         
         if (acao == JFileChooser.APPROVE_OPTION) {
            produto.setImagem(fileChooser.getSelectedFile().getPath());
-           
-            try {
-                BufferedImage img = ImageIO.read(new File(produto.getImagem()));
-                ImageIcon icon = new ImageIcon(img.getScaledInstance(140, 140, Image.SCALE_AREA_AVERAGING));
-                jLabel1.setText("");
-                jLabel1.setIcon(icon);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           trocaImagem();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         produto.setNome(txtNome.getText());
         produto.setDescricao(txtDesc.getText());
-        produto.setPrecoCompra(Double.parseDouble(txtValorCompra.getText()));
-        produto.setPrecoVenda(Double.parseDouble(txtValorVenda.getText()));
+        try {
+            produto.setPrecoCompra(Double.parseDouble(txtValorCompra.getText()));
+        } catch (NumberFormatException ex) {
+            produto.setPrecoCompra(-1d);
+            // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            produto.setPrecoVenda(Double.parseDouble(txtValorVenda.getText()));
+        } catch (NumberFormatException ex) {
+            produto.setPrecoVenda(-1d);
+            // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
         produto.setCategoria(comboCategoria.getSelectedIndex());
         
         if (modo == MODO_CRIAR) {
@@ -275,19 +271,32 @@ public class FormProduto extends javax.swing.JFrame {
                 ((Window) getRootPane().getParent()).dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
+        } else if (modo == MODO_ALTERAR) {
             try {
                 ControleProduto.atualizarProduto(produto);
                 ((Window) getRootPane().getParent()).dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void trocaImagem() {
+        try {
+            BufferedImage img = ImageIO.read(new File(produto.getImagem()));
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(140, 140, Image.SCALE_AREA_AVERAGING));
+            jLabel1.setText("");
+            jLabel1.setIcon(icon);
+        } catch (IOException ex) {
+            produto.setImagem(null);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JButton jButton1;

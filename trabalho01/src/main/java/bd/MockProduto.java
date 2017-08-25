@@ -7,6 +7,7 @@ package bd;
 
 import model.Produto;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,7 @@ public class MockProduto {
     //Insere um produto no mock "produto"
     public static void inserir(Produto produto) throws Exception {
         produto.setId(++totalProdutos);
+        produto.setDataCriacao(new GregorianCalendar());
         listaProdutos.add(produto);
     }
 

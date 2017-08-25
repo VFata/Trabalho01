@@ -16,14 +16,22 @@ import model.Produto;
 public class ControleProduto {
 
     public static void criarNovo(Produto produto) throws Exception {
-        if (validarNovoProduto.validarNovoProduto(produto)) {
+        String erro = validarNovoProduto.validarNovoProduto(produto);
+        if (erro == null) {
             MockProduto.inserir(produto);
+        } else {
+            throw new Exception(erro);
+            // JOptionPane.showMessageDialog(null, erro, "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public static void atualizarProduto(Produto produto) throws Exception {
-        if (validarEditarProduto.validarEditarProduto(produto)) {
+        String erro = validarEditarProduto.validarEditarProduto(produto);
+        if (erro == null) {
             MockProduto.atualizar(produto);
+        } else {
+            throw new Exception(erro);
+            // JOptionPane.showMessageDialog(null, erro, "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 

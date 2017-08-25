@@ -8,7 +8,7 @@ package model;
 import java.util.GregorianCalendar;
 
 public class Produto {
-    public static final String[] CATEGORIAS = {"sem categoria", "categoria 1"};
+    public static final String[] CATEGORIAS = {"sem categoria", "categoria 1", "categoria 2", "categoria 3"};
     
     private Integer id; 
     private String nome;

@@ -22,10 +22,9 @@ import model.Produto;
 public class ListaProduto extends javax.swing.JFrame {
     FormProduto formProduto = null;
     String ultimaBusca = "";
-    
-    
+        
     /**
-     * Creates new form lista
+     * Creates new form listaProduto
      */
     public ListaProduto() {
         initComponents();
@@ -200,6 +199,8 @@ public class ListaProduto extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(ListaProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um produto.", "Informação", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -224,6 +225,8 @@ public class ListaProduto extends javax.swing.JFrame {
                 @Override public void windowActivated(WindowEvent e) {}
                 @Override public void windowDeactivated(WindowEvent e) {}
             });
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um produto.", "Informação", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -282,6 +285,8 @@ public class ListaProduto extends javax.swing.JFrame {
                             "Falha na Exclusão", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um produto.", "Informação", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 

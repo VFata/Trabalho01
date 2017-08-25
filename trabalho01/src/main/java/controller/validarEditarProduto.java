@@ -5,38 +5,53 @@ import model.Produto;
 
 public class validarEditarProduto {
 
-    public static boolean validarEditarProduto(Produto produto) {
+    public static String validarEditarProduto(Produto produto) {
+        boolean valido = true;
+        String mensagemDeErro = "Erro(s):\n";
+        
         if (produto.getId() <= 0) {
-            return false;
+            mensagemDeErro += "ID inválido.\n";
+            valido = false;
         }
         if (produto.getDataCriacao() == null) {
-            return false;
+            mensagemDeErro += "Data de criação inválida.\n";
+            valido = false;
         }
         if (produto.getNome() == null || produto.getNome().equals("")) {
-            JOptionPane.showMessageDialog(null, "Favor inserir um nome");
-            return false;
+            mensagemDeErro += "Favor inserir um nome.\n";
+            // JOptionPane.showMessageDialog(null, "Favor inserir um nome");
+            valido = false;
         }
         if (produto.getDescricao() == null || produto.getDescricao().equals("")) {
-            JOptionPane.showMessageDialog(null, "Favor inserir uma descrição");
-            return false;
+            mensagemDeErro += "Favor inserir uma descrição.\n";
+            // JOptionPane.showMessageDialog(null, "Favor inserir uma descrição");
+            valido = false;
         }
         if (produto.getPrecoVenda() <= 0) {
-            JOptionPane.showMessageDialog(null, "Favor inserir um preço de venda");
-            return false;
+            mensagemDeErro += "Favor inserir um preço de venda.\n";
+            // JOptionPane.showMessageDialog(null, "Favor inserir um preço de venda");
+            valido = false;
         }
         if (produto.getPrecoCompra() <= 0) {
-            JOptionPane.showMessageDialog(null, "Favor inserir um preço de compra");
-            return false;
+            mensagemDeErro += "Favor inserir um preço de compra.\n";
+            // JOptionPane.showMessageDialog(null, "Favor inserir um preço de compra");
+            valido = false;
         }
-        if (produto.getCategoria() < 0) {
-            JOptionPane.showMessageDialog(null, "Favor inserir uma categoria");
-            return false;
+        if (produto.getCategoria() < 0 || produto.getCategoria() >= Produto.CATEGORIAS.length) {
+            mensagemDeErro += "Favor inserir uma categoria.\n";
+            // JOptionPane.showMessageDialog(null, "Favor inserir uma categoria");
+            valido = false;
         }
         if (produto.getImagem() == null || produto.getImagem().equals("")) {
-            JOptionPane.showMessageDialog(null, "Favor inserir uma imagem");
-            return false;
+            mensagemDeErro += "Favor inserir uma imagem.";
+            // JOptionPane.showMessageDialog(null, "Favor inserir uma imagem");
+            valido = false;
         }
-        return true;
-
+        
+        if (valido) {
+            return null;
+        } else {
+            return mensagemDeErro;
+        }
     }
 }
