@@ -5,18 +5,36 @@
  */
 package view;
 
+import controller.ControleProduto;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Produto;
+
 /**
  *
  * @author diego
  */
 public class ListaProduto extends javax.swing.JFrame {
     FormProduto formProduto = null;
+    String ultimaBusca = "";
+    
     
     /**
      * Creates new form lista
      */
     public ListaProduto() {
         initComponents();
+        try {
+            recarregaLista();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ListaProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -34,28 +52,32 @@ public class ListaProduto extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnNovoProduto = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextField1.setText("Nome");
         jTextField1.setToolTipText("Pesquisar por nome");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "Categoria", "Valor Venda"
+                "ID", "Nome", "Categoria", "Valor Venda"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -82,16 +104,26 @@ public class ListaProduto extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Novo Produto");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnNovoProduto.setText("Novo Produto");
+        btnNovoProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnNovoProdutoActionPerformed(evt);
             }
         });
 
         jButton4.setText("Excluir");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Pesquisar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,7 +139,7 @@ public class ListaProduto extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnNovoProduto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -126,7 +158,7 @@ public class ListaProduto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
+                    .addComponent(btnNovoProduto)
                     .addComponent(jButton4)))
         );
 
@@ -151,24 +183,111 @@ public class ListaProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() >= 0) {
+            Integer id = (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            try {
+                Produto produto = ControleProduto.obterProduto(id);
+            
+                String conteudo = "";
+                conteudo += "Nome: " + produto.getNome() + "\n";
+                conteudo += "Categoria: " + produto.getCategoria() + "\n";
+                conteudo += "Preço Compra: " + produto.getPrecoCompra() + "\n";
+                conteudo += "Preço Venda: " + produto.getPrecoVenda() + "\n";
+                conteudo += "Descrição: " + produto.getDescricao();
+                
+                JOptionPane.showMessageDialog(null, conteudo, "Detalhes Produto", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(ListaProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        formProduto = new FormProduto(FormProduto.MODO_ALTERAR);
-        
-        formProduto.setVisible(true);
-        
-        
-        
+        if (jTable1.getSelectedRow() >= 0) {
+            Integer id = (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            formProduto = new FormProduto(FormProduto.MODO_ALTERAR, id);
+            formProduto.setVisible(true);
+            formProduto.addWindowListener(new WindowListener() {
+                @Override public void windowOpened(WindowEvent e) {}
+                @Override public void windowClosing(WindowEvent e) {}
+                @Override public void windowClosed(WindowEvent e) {
+                    try {
+                        recarregaLista();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                        Logger.getLogger(ListaProduto.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                @Override public void windowIconified(WindowEvent e) {}
+                @Override public void windowDeiconified(WindowEvent e) {}
+                @Override public void windowActivated(WindowEvent e) {}
+                @Override public void windowDeactivated(WindowEvent e) {}
+            });
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        formProduto = new FormProduto(FormProduto.MODO_CRIAR);
-        
+    private void btnNovoProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoProdutoActionPerformed
+        formProduto = new FormProduto(FormProduto.MODO_CRIAR, -1);
         formProduto.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        formProduto.addWindowListener(new WindowListener() {
+            @Override public void windowOpened(WindowEvent e) {}
+            @Override public void windowClosing(WindowEvent e) {}
+            @Override public void windowClosed(WindowEvent e) {
+                try {
+                    recarregaLista();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    Logger.getLogger(ListaProduto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            @Override public void windowIconified(WindowEvent e) {}
+            @Override public void windowDeiconified(WindowEvent e) {}
+            @Override public void windowActivated(WindowEvent e) {}
+            @Override public void windowDeactivated(WindowEvent e) {}
+        });
+    }//GEN-LAST:event_btnNovoProdutoActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        boolean resultadoBusca = false;
+        ultimaBusca = jTextField1.getText();
+        
+        try {
+            resultadoBusca = recarregaLista();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ListaProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (!resultadoBusca) {
+            JOptionPane.showMessageDialog(null, "A pesquisa não retornou resultados ", "Sem resultados", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (jTable1.getSelectedRow() >= 0) {
+            final int row = jTable1.getSelectedRow();
+            String nome = (String) jTable1.getValueAt(row, 1);
+            int resposta = JOptionPane.showConfirmDialog(null,
+                "Excluir o produto \"" + nome + "\"?",
+                "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                try {
+                    Integer id = (Integer) jTable1.getValueAt(row, 0);
+                    ControleProduto.excluir(id);
+                    recarregaLista();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e.getMessage(),
+                            "Falha na Exclusão", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,10 +325,32 @@ public class ListaProduto extends javax.swing.JFrame {
         });
     }
 
+    private boolean recarregaLista() throws Exception {
+        List<Produto> resultado = ControleProduto.listar(ultimaBusca);
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
+        if (resultado == null || resultado.size() <= 0) {
+            return false;
+        }
+        for (int i = 0; i < resultado.size(); i++) {
+            Produto produto = resultado.get(i);
+            if (produto != null) {
+                Object[] row = new Object[5];
+                row[0] = produto.getId();
+                row[1] = produto.getNome();
+                row[2] = produto.getCategoria();
+                row[3] = produto.getPrecoVenda();
+                modelo.addRow(row);
+            }
+        }
+        return true;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNovoProduto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;

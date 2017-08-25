@@ -25,10 +25,8 @@ public class ControleProduto {
         MockProduto.atualizar(produto);
     }
 
-    public static void excluir(Produto produto) throws Exception {
-        validarNovoProduto.validarNovoProduto(produto);
-
-        MockProduto.excluir(produto.getId());
+    public static void excluir(int id) throws Exception {
+        MockProduto.excluir(id);
     }
 
     public static List<Produto> listar(String nomeProduto) throws Exception {

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 /**
  *
  * @author diego
@@ -21,7 +20,7 @@ public class MockProduto {
     
     //Insere um produto no mock "produto"
     public static void inserir(Produto produto) throws Exception {
-        produto.setId(totalProdutos++);
+        produto.setId(++totalProdutos);
         listaProdutos.add(produto);
     }
 
@@ -46,7 +45,6 @@ public class MockProduto {
                 Produto produto = listaProdutos.get(i);
                 if (produto != null && produto.getId().equals(id)) {
                     listaProdutos.remove(i);
-                    //produto.setDeletado(true);
                     break;
                 }
             }
@@ -56,8 +54,7 @@ public class MockProduto {
     //Lista todos os produtos
     public static List<Produto> listar() throws Exception {
         return listaProdutos.stream()
-                //.filter((Produto p) -> !p.isDeletado())
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 
     //Procura um produto no mock, de acordo com o nome
@@ -68,11 +65,10 @@ public class MockProduto {
         
         if (valor != null && !listaProdutos.isEmpty()) {
             listaResultado = listaProdutos.stream()
-                .filter((Produto p) -> /*!p.isDeletado() &&*/ p.getNome() != null && p.getNome().toUpperCase().contains(valor.toUpperCase()))
-                .collect(Collectors.toList());
+                    .filter((Produto p) -> p.getNome() != null && p.getNome().toLowerCase().contains(valor.toLowerCase()))
+                    .collect(Collectors.toList());
             
         }
-        
         //Retorna a lista de produtos encontrados
         return listaResultado;
     }

@@ -6,12 +6,17 @@
 package view;
 
 import controller.ControleProduto;
+import java.awt.Image;
+import java.awt.Window;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Produto;
 
@@ -21,20 +26,38 @@ import model.Produto;
  */
 public class FormProduto extends javax.swing.JFrame {
     public static final int MODO_CRIAR = 0;
-    public static final int MODO_ALTERAR = 0;
+    public static final int MODO_ALTERAR = 1;
     public int modo;
     public Produto produto = null; 
     
     /**
      * Creates new form FormProduto
      */
-    public FormProduto(int modo, int id) throws Exception {
+    public FormProduto(int modo, int id) {
         initComponents();
         this.modo = modo;
         
         if (modo == MODO_ALTERAR) {
-            produto = ControleProduto.obterProduto(id);
-            
+            try {
+                produto = ControleProduto.obterProduto(id);
+                
+                txtNome.setText(produto.getNome());
+                txtDesc.setText(produto.getDescricao());
+                txtValorCompra.setText(Double.toString(produto.getPrecoCompra()));
+                txtValorVenda.setText(Double.toString(produto.getPrecoVenda()));
+                comboCategoria.setSelectedIndex(produto.getCategoria());
+                
+                BufferedImage img = ImageIO.read(new File(produto.getImagem()));
+                ImageIcon icon = new ImageIcon(img.getScaledInstance(140, 140, Image.SCALE_AREA_AVERAGING));
+                jLabel1.setText("");
+                jLabel1.setIcon(icon);
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            produto = new Produto();
         }
     }
 
@@ -66,7 +89,10 @@ public class FormProduto extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(3500, 3500));
+        setMinimumSize(new java.awt.Dimension(400, 350));
+        setPreferredSize(new java.awt.Dimension(500, 400));
 
         jLabel3.setText("Nome");
 
@@ -78,18 +104,22 @@ public class FormProduto extends javax.swing.JFrame {
 
         jLabel5.setText("Valor compra");
 
+        txtValorCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+
         jLabel6.setText("Valor venda");
+
+        txtValorVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
         jLabel7.setText("Categoria");
 
-        comboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(Produto.CATEGORIAS));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(txtNome)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -111,7 +141,7 @@ public class FormProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -151,27 +181,27 @@ public class FormProduto extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton2))
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addGap(101, 111, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,7 +222,7 @@ public class FormProduto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -200,7 +230,7 @@ public class FormProduto extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -210,93 +240,55 @@ public class FormProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser fc = new JFileChooser();
-        fc.setDialogTitle("Procurar imagem");
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagem", "jpg", "png");
-        fc.setFileFilter(filter);
         
-        int acao = fc.showOpenDialog(this);
+        fileChooser.setDialogTitle("Procurar imagem");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setFileFilter(filter);
+        
+        int acao = fileChooser.showOpenDialog(this);
         
         if (acao == JFileChooser.APPROVE_OPTION) {
-           //File file = fc.setSelectedFile(file);
+           produto.setImagem(fileChooser.getSelectedFile().getPath());
+           
+            try {
+                BufferedImage img = ImageIO.read(new File(produto.getImagem()));
+                ImageIcon icon = new ImageIcon(img.getScaledInstance(140, 140, Image.SCALE_AREA_AVERAGING));
+                jLabel1.setText("");
+                jLabel1.setIcon(icon);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-     
+        produto.setNome(txtNome.getText());
+        produto.setDescricao(txtDesc.getText());
+        produto.setPrecoCompra(Double.parseDouble(txtValorCompra.getText()));
+        produto.setPrecoVenda(Double.parseDouble(txtValorVenda.getText()));
+        produto.setCategoria(comboCategoria.getSelectedIndex());
         
         if (modo == MODO_CRIAR) {
-            Produto produto = new Produto();
-
-            produto.setNome(txtNome.getText());
-            produto.setDescricao(txtDesc.getText());
-            produto.setPrecoCompra(Integer.parseInt(txtValorCompra.getText()));
-            produto.setPrecoVenda(Integer.parseInt(txtValorVenda.getText()));
-            produto.setCategoria(comboCategoria.getSelectedIndex());
-            produto.setImagem();
-
             try {
                 ControleProduto.criarNovo(produto);
+                ((Window) getRootPane().getParent()).dispose();
             } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        }else{
-            
-            Produto produto = new Produto();
-            
-            produto.setId(produto.getId());
-            produto.setDataCriacao(produto.getDataCriacao());
-            produto.setNome(txtNome.getText());
-            produto.setDescricao(txtDesc.getText());
-            produto.setPrecoCompra(Integer.parseInt(txtValorCompra.getText()));
-            produto.setPrecoVenda(Integer.parseInt(txtValorVenda.getText()));
-            produto.setCategoria(comboCategoria.getSelectedIndex());
-
+        } else {
             try {
                 ControleProduto.atualizarProduto(produto);
+                ((Window) getRootPane().getParent()).dispose();
             } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     * /
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         * /
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form * /
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormProduto().setVisible(true);
-            }
-        });
-    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboCategoria;
