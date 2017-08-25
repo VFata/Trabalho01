@@ -22,7 +22,7 @@ public class validarNovoProduto {
             JOptionPane.showMessageDialog(null, "Favor inserir um preço de compra");
             return false;
         }
-        if (produto.getCategoria() <= 0) {
+        if (produto.getCategoria() < 0) {
             JOptionPane.showMessageDialog(null, "Favor inserir uma categoria");
             return false;
         }
