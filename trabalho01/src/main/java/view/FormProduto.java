@@ -28,7 +28,7 @@ public class FormProduto extends javax.swing.JFrame {
     /**
      * Creates new form FormProduto
      */
-    public FormProduto(int modo, int id) {
+    public FormProduto(int modo, int id) throws Exception {
         initComponents();
         this.modo = modo;
         
