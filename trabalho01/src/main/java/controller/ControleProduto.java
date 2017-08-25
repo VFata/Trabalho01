@@ -16,13 +16,15 @@ import model.Produto;
 public class ControleProduto {
 
     public static void criarNovo(Produto produto) throws Exception {
-        validarNovoProduto.validarNovoProduto(produto);
-        MockProduto.inserir(produto);
+        if (validarNovoProduto.validarNovoProduto(produto)) {
+            MockProduto.inserir(produto);
+        }
     }
 
     public static void atualizarProduto(Produto produto) throws Exception {
-        validarEditarProduto.validarEditarProduto(produto);
-        MockProduto.atualizar(produto);
+        if (validarEditarProduto.validarEditarProduto(produto)) {
+            MockProduto.atualizar(produto);
+        }
     }
 
     public static void excluir(int id) throws Exception {

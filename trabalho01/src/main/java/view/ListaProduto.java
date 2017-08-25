@@ -190,7 +190,7 @@ public class ListaProduto extends javax.swing.JFrame {
             
                 String conteudo = "";
                 conteudo += "Nome: " + produto.getNome() + "\n";
-                conteudo += "Categoria: " + produto.getCategoria() + "\n";
+                conteudo += "Categoria: " + Produto.CATEGORIAS[produto.getCategoria()] + "\n";
                 conteudo += "Preço Compra: " + produto.getPrecoCompra() + "\n";
                 conteudo += "Preço Venda: " + produto.getPrecoVenda() + "\n";
                 conteudo += "Descrição: " + produto.getDescricao();
@@ -339,7 +339,7 @@ public class ListaProduto extends javax.swing.JFrame {
                 Object[] row = new Object[5];
                 row[0] = produto.getId();
                 row[1] = produto.getNome();
-                row[2] = produto.getCategoria();
+                row[2] = Produto.CATEGORIAS[produto.getCategoria()];
                 row[3] = produto.getPrecoVenda();
                 modelo.addRow(row);
             }
