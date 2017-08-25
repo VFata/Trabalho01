@@ -23,13 +23,19 @@ public class FormProduto extends javax.swing.JFrame {
     public static final int MODO_CRIAR = 0;
     public static final int MODO_ALTERAR = 0;
     public int modo;
+    public Produto produto = null; 
     
     /**
      * Creates new form FormProduto
      */
-    public FormProduto(int modo) {
+    public FormProduto(int modo, int id) {
         initComponents();
         this.modo = modo;
+        
+        if (modo == MODO_ALTERAR) {
+            produto = ControleProduto.obterProduto(id);
+            
+        }
     }
 
     /**
@@ -213,14 +219,14 @@ public class FormProduto extends javax.swing.JFrame {
         int acao = fc.showOpenDialog(this);
         
         if (acao == JFileChooser.APPROVE_OPTION) {
-            //File file = fc.setSelectedFile(file);
+           //File file = fc.setSelectedFile(file);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
      
         
-        if (modo == 0) {
+        if (modo == MODO_CRIAR) {
             Produto produto = new Produto();
 
             produto.setNome(txtNome.getText());
@@ -228,6 +234,7 @@ public class FormProduto extends javax.swing.JFrame {
             produto.setPrecoCompra(Integer.parseInt(txtValorCompra.getText()));
             produto.setPrecoVenda(Integer.parseInt(txtValorVenda.getText()));
             produto.setCategoria(comboCategoria.getSelectedIndex());
+            produto.setImagem();
 
             try {
                 ControleProduto.criarNovo(produto);
@@ -238,7 +245,9 @@ public class FormProduto extends javax.swing.JFrame {
         }else{
             
             Produto produto = new Produto();
-
+            
+            produto.setId(produto.getId());
+            produto.setDataCriacao(produto.getDataCriacao());
             produto.setNome(txtNome.getText());
             produto.setDescricao(txtDesc.getText());
             produto.setPrecoCompra(Integer.parseInt(txtValorCompra.getText()));
