@@ -79,7 +79,6 @@ public class DAOProduto {
                 //Configura os parâmetros do "PreparedStatement"
                 
                 statement.setInt(15, produto.getId());
-                statement.setInt(15, produto.getDataCriacao());
                 statement.setString(1, produto.getNome());
                 statement.setString(2, produto.getDescricao());
                 statement.setDouble(4, produto.getPrecoCompra());
