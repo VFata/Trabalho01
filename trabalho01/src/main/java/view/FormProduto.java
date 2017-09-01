@@ -47,8 +47,8 @@ public class FormProduto extends javax.swing.JFrame {
                 
                 txtNome.setText(produto.getNome());
                 txtDesc.setText(produto.getDescricao());
-                txtValorCompra.setText(Double.toString(produto.getPrecoCompra()));
-                txtValorVenda.setText(Double.toString(produto.getPrecoVenda()));
+                txtValorCompra.setValue(produto.getPrecoCompra());
+                txtValorVenda.setValue(produto.getPrecoVenda());
                 comboCategoria.setSelectedIndex(produto.getCategoria());
                 trocaImagem();
             } catch (Exception ex) {
@@ -101,11 +101,11 @@ public class FormProduto extends javax.swing.JFrame {
 
         jLabel5.setText("Valor compra");
 
-        txtValorCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        txtValorCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
         jLabel6.setText("Valor venda");
 
-        txtValorVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        txtValorVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
         jLabel7.setText("Categoria");
 
@@ -292,13 +292,14 @@ public class FormProduto extends javax.swing.JFrame {
         produto.setNome(txtNome.getText());
         produto.setDescricao(txtDesc.getText());
         try {
-            produto.setPrecoCompra(Double.parseDouble(txtValorCompra.getText()));
+            String compra = txtValorCompra.getText();
+            produto.setPrecoCompra( ((Number) txtValorCompra.getValue()).doubleValue() );
         } catch (NumberFormatException ex) {
             produto.setPrecoCompra(-1d);
             Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            produto.setPrecoVenda(Double.parseDouble(txtValorVenda.getText()));
+            produto.setPrecoVenda( ((Number) txtValorVenda.getValue()).doubleValue() );
         } catch (NumberFormatException ex) {
             produto.setPrecoVenda(-1d);
             Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
