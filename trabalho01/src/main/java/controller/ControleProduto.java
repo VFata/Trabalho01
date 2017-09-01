@@ -8,6 +8,7 @@ package controller;
 import bd.MockProduto;
 import java.util.List;
 import model.Produto;
+import bd.DAOProduto;
 
 /**
  *
@@ -18,7 +19,7 @@ public class ControleProduto {
     public static void criarNovo(Produto produto) throws Exception {
         String erro = validarNovoProduto.validarNovoProduto(produto);
         if (erro == null) {
-            MockProduto.inserir(produto);
+            DAOProduto.inserir(produto);      
         } else {
             throw new Exception(erro);
             // JOptionPane.showMessageDialog(null, erro, "Erro", JOptionPane.ERROR_MESSAGE);
@@ -28,7 +29,7 @@ public class ControleProduto {
     public static void atualizarProduto(Produto produto) throws Exception {
         String erro = validarEditarProduto.validarEditarProduto(produto);
         if (erro == null) {
-            MockProduto.atualizar(produto);
+            DAOProduto.atualizar(produto);
         } else {
             throw new Exception(erro);
             // JOptionPane.showMessageDialog(null, erro, "Erro", JOptionPane.ERROR_MESSAGE);
@@ -36,18 +37,18 @@ public class ControleProduto {
     }
 
     public static void excluir(int id) throws Exception {
-        MockProduto.excluir(id);
+        DAOProduto.excluir(id);
     }
 
     public static List<Produto> listar(String nomeProduto) throws Exception {
         if (nomeProduto == null || nomeProduto.isEmpty()) {
-            return MockProduto.listar();
+            return DAOProduto.listar();
         } else {
-            return MockProduto.procurar(nomeProduto);
+            return DAOProduto.procurar(nomeProduto);
         }
     }
 
     public static Produto obterProduto(Integer id) throws Exception {
-        return MockProduto.obter(id);
+        return DAOProduto.obter(id);
     }
 }
