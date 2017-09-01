@@ -184,18 +184,6 @@ public class ListaProduto extends javax.swing.JFrame {
         if (jTable1.getSelectedRow() >= 0) {
             Integer id = (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             try {
-                /*
-                Produto produto = ControleProduto.obterProduto(id);
-            
-                String conteudo = "";
-                conteudo += "Nome: " + produto.getNome() + "\n";
-                conteudo += "Categoria: " + Produto.CATEGORIAS[produto.getCategoria()] + "\n";
-                conteudo += "Preço Compra: " + produto.getPrecoCompra() + "\n";
-                conteudo += "Preço Venda: " + produto.getPrecoVenda() + "\n";
-                conteudo += "Descrição: " + produto.getDescricao();
-                
-                JOptionPane.showMessageDialog(null, conteudo, "Detalhes Produto", JOptionPane.INFORMATION_MESSAGE);
-                */
                 verProduto = new VerProduto(id);
                 verProduto.setTitle("Detalhes Produto");
                 verProduto.setVisible(true);
