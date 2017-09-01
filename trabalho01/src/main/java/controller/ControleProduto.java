@@ -5,7 +5,6 @@
  */
 package controller;
 
-import bd.MockProduto;
 import java.util.List;
 import model.Produto;
 import bd.DAOProduto;
@@ -17,7 +16,7 @@ import bd.DAOProduto;
 public class ControleProduto {
 
     public static void criarNovo(Produto produto) throws Exception {
-        String erro = validarNovoProduto.validarNovoProduto(produto);
+        String erro = ValidarProduto.validarNovoProduto(produto);
         if (erro == null) {
             DAOProduto.inserir(produto);      
         } else {
@@ -27,7 +26,7 @@ public class ControleProduto {
     }
 
     public static void atualizarProduto(Produto produto) throws Exception {
-        String erro = validarEditarProduto.validarEditarProduto(produto);
+        String erro = ValidarProduto.validarEditarProduto(produto);
         if (erro == null) {
             DAOProduto.atualizar(produto);
         } else {

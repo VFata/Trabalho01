@@ -50,7 +50,6 @@ public class Produto {
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -58,7 +57,6 @@ public class Produto {
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -66,7 +64,6 @@ public class Produto {
     public String getDescricao() {
         return descricao;
     }
-
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -74,7 +71,6 @@ public class Produto {
     public double getPrecoVenda() {
         return precoVenda;
     }
-
     public void setPrecoVenda(double precoVenda) {
         this.precoVenda = precoVenda;
     }
@@ -82,7 +78,6 @@ public class Produto {
     public double getPrecoCompra() {
         return precoCompra;
     }
-
     public void setPrecoCompra(double precoCompra) {
         this.precoCompra = precoCompra;
     }
@@ -90,7 +85,6 @@ public class Produto {
     public int getCategoria() {
         return categoria;
     }
-
     public void setCategoria(int categoria) {
         this.categoria = categoria;
     }
@@ -98,7 +92,6 @@ public class Produto {
     public String getImagem() {
         return imagem;
     }
-
     public void setImagem(String imagem) {
         this.imagem = imagem;
     }
@@ -106,7 +99,6 @@ public class Produto {
     public GregorianCalendar getDataCriacao() {
         return dataCriacao;
     }
-
     public void setDataCriacao(GregorianCalendar dataCriacao) {
         this.dataCriacao = dataCriacao;
     }

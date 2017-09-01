@@ -9,6 +9,7 @@ import model.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -24,8 +25,8 @@ public class DAOProduto {
     public static void inserir(Produto produto) throws Exception {
         //Monta a string de inserção de um produto no BD,
         //utilizando os dados do produtos passados como parâmetro
-        String sql = "INSERT INTO produtos (id, nome, descricao, precoVenda, precoCompra, categoria, imagem, dataCriacao) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produtos (nome, descricao, precoVenda, precoCompra, categoria, imagem, dataCriacao) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         //Conexão para abertura e fechamento
         Connection connection = null;
         //Statement para obtenção através da conexão, execução de
@@ -35,21 +36,29 @@ public class DAOProduto {
             //Abre uma conexão com o banco de dados
             connection = SQLConnectionUtils.getConnection();
             //Cria um statement para execução de instruções SQL
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql,  Statement.RETURN_GENERATED_KEYS);
             //Configura os parâmetros do "PreparedStatement"
-            statement.setInt(1, produto.getId());
-            statement.setString(2, produto.getNome());
-            statement.setString(3, produto.getDescricao());
-            statement.setDouble(5, produto.getPrecoCompra());
-            statement.setDouble(4, produto.getPrecoVenda());
-            statement.setInt(6, produto.getCategoria());
-            statement.setString(7, produto.getImagem());
-            statement.setTimestamp(8, new Timestamp (produto.getDataCriacao().getTimeInMillis()));
-            
-
-            
+            statement.setString(1, produto.getNome());
+            statement.setString(2, produto.getDescricao());
+            statement.setDouble(3, produto.getPrecoVenda());
+            statement.setDouble(4, produto.getPrecoCompra());
+            statement.setInt(5, produto.getCategoria());
+            statement.setString(6, produto.getImagem());
+            statement.setTimestamp(7, new Timestamp(System.currentTimeMillis()) );
+                        
             //Executa o comando no banco de dados
-            statement.execute();
+            statement.executeUpdate();
+            
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                  int idNovo = generatedKeys.getInt(1);
+                  produto.setId(idNovo);
+                  // System.out.println("***** ID NOVO CADASTRADO: " + String.valueOf(idNovo));
+                }
+
+              }
+            connection.commit();
+            
             
         } finally {
             //Se o statement ainda estiver aberto, realiza seu fechamento
@@ -69,7 +78,8 @@ public class DAOProduto {
         if (produto != null && produto.getId() != null && produto.getId() > 0) {
             //Monta a string de atualização do produto no BD, utilizando
             //prepared statement
-            String sql = "UPDATE produtos SET id=?, nome=?, descricao=?, precoVenda=?, precoCompra=?, categoria=?, imagem=?, dataCriacao=? ";
+            String sql = "UPDATE produtos SET nome=?, descricao=?, precoVenda=?, precoCompra=?, categoria=?, imagem=? "
+                    + "WHERE (id=?)";
             //Conexão para abertura e fechamento
             Connection connection = null;
             //Statement para obtenção através da conexão, execução de
@@ -82,14 +92,13 @@ public class DAOProduto {
                 statement = connection.prepareStatement(sql);
                 //Configura os parâmetros do "PreparedStatement"
                 
-            statement.setInt(1, produto.getId());
-            statement.setString(2, produto.getNome());
-            statement.setString(3, produto.getDescricao());
-            statement.setDouble(5, produto.getPrecoCompra());
-            statement.setDouble(4, produto.getPrecoVenda());
-            statement.setInt(6, produto.getCategoria());
-            statement.setString(7, produto.getImagem());
-            statement.setTimestamp(8, new Timestamp (produto.getDataCriacao().getTimeInMillis()));                
+            statement.setInt(7, produto.getId());
+            statement.setString(1, produto.getNome());
+            statement.setString(2, produto.getDescricao());
+            statement.setDouble(3, produto.getPrecoVenda());
+            statement.setDouble(4, produto.getPrecoCompra());
+            statement.setInt(5, produto.getCategoria());
+            statement.setString(6, produto.getImagem());              
 
                 //Executa o comando no banco de dados
                 statement.execute();
@@ -112,7 +121,7 @@ public class DAOProduto {
         if (id != null && id > 0) {
             //Monta a string de atualização do produto no BD, utilizando
             //prepared statement
-            String sql = "UPDATE produtos SET deletado=? ";
+            String sql = "DELETE FROM produtos WHERE id=? ";
             //Conexão para abertura e fechamento
             Connection connection = null;
             //Statement para obtenção através da conexão, execução de
@@ -124,8 +133,7 @@ public class DAOProduto {
                 //Cria um statement para execução de instruções SQL
                 preparedStatement = connection.prepareStatement(sql);
                 //Configura os parâmetros do "PreparedStatement"
-                preparedStatement.setBoolean(1, true);
-                preparedStatement.setInt(2, id);
+                preparedStatement.setInt(1, id);
 
                 //Executa o comando no banco de dados
                 preparedStatement.execute();
@@ -144,7 +152,7 @@ public class DAOProduto {
 
     //Lista todos os produtos
     public static List<Produto> listar() throws Exception {
-//Monta a string de listagem de produtos no banco, considerando
+        //Monta a string de listagem de produtos no banco, considerando
         //apenas a coluna de ativação de produtos ("enabled")
         String sql = "SELECT * FROM produtos";        
         //Lista de produtos de resultado
@@ -161,7 +169,6 @@ public class DAOProduto {
             connection = SQLConnectionUtils.getConnection();
             //Cria um statement para execução de instruções SQL
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setBoolean(1, false);
             
             //Executa a consulta SQL no banco de dados
             result = preparedStatement.executeQuery();
@@ -235,7 +242,6 @@ public class DAOProduto {
             preparedStatement = connection.prepareStatement(sql);
             //Configura os parâmetros do "PreparedStatement"
             preparedStatement.setString(1, "%" + valor + "%");
-            preparedStatement.setBoolean(2, false);
             
             //Executa a consulta SQL no banco de dados
             result = preparedStatement.executeQuery();
@@ -299,8 +305,7 @@ public class DAOProduto {
             //Cria um statement para execução de instruções SQL
             preparedStatement = connection.prepareStatement(sql);
             //Configura os parâmetros do "PreparedStatement"
-            preparedStatement.setInt(1, id);            
-            preparedStatement.setBoolean(2, false);
+            preparedStatement.setInt(1, id);
             
             //Executa a consulta SQL no banco de dados
             result = preparedStatement.executeQuery();
