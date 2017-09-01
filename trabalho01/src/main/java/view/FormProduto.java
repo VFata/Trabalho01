@@ -101,11 +101,11 @@ public class FormProduto extends javax.swing.JFrame {
 
         jLabel5.setText("Valor compra");
 
-        txtValorCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtValorCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         jLabel6.setText("Valor venda");
 
-        txtValorVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtValorVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         jLabel7.setText("Categoria");
 
@@ -276,7 +276,9 @@ public class FormProduto extends javax.swing.JFrame {
                 ImageIO.write(img, "png", saveImg);
                 
                 produto.setImagem(saveImg.getCanonicalPath());
-                (new File(imagemVelha)).delete();
+                if (imagemVelha != null) {
+                    (new File(imagemVelha)).delete();
+                }
             } catch (Exception ex) {
                 Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
                 produto.setImagem(null);
@@ -293,13 +295,13 @@ public class FormProduto extends javax.swing.JFrame {
             produto.setPrecoCompra(Double.parseDouble(txtValorCompra.getText()));
         } catch (NumberFormatException ex) {
             produto.setPrecoCompra(-1d);
-            // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             produto.setPrecoVenda(Double.parseDouble(txtValorVenda.getText()));
         } catch (NumberFormatException ex) {
             produto.setPrecoVenda(-1d);
-            // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
         produto.setCategoria(comboCategoria.getSelectedIndex());
         
