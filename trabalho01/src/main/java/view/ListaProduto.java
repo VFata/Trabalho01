@@ -21,6 +21,7 @@ import model.Produto;
  */
 public class ListaProduto extends javax.swing.JFrame {
     FormProduto formProduto = null;
+    VerProduto verProduto = null;
     String ultimaBusca = "";
         
     /**
@@ -28,6 +29,9 @@ public class ListaProduto extends javax.swing.JFrame {
      */
     public ListaProduto() {
         initComponents();
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(0).setWidth(0);
         try {
             recarregaLista();
         } catch (Exception ex) {
@@ -58,11 +62,6 @@ public class ListaProduto extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTextField1.setToolTipText("Pesquisar por nome");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -73,7 +72,7 @@ public class ListaProduto extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -185,6 +184,7 @@ public class ListaProduto extends javax.swing.JFrame {
         if (jTable1.getSelectedRow() >= 0) {
             Integer id = (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             try {
+                /*
                 Produto produto = ControleProduto.obterProduto(id);
             
                 String conteudo = "";
@@ -195,6 +195,10 @@ public class ListaProduto extends javax.swing.JFrame {
                 conteudo += "Descrição: " + produto.getDescricao();
                 
                 JOptionPane.showMessageDialog(null, conteudo, "Detalhes Produto", JOptionPane.INFORMATION_MESSAGE);
+                */
+                verProduto = new VerProduto(id);
+                verProduto.setTitle("Detalhes Produto");
+                verProduto.setVisible(true);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(ListaProduto.class.getName()).log(Level.SEVERE, null, ex);
@@ -290,10 +294,6 @@ public class ListaProduto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -344,8 +344,8 @@ public class ListaProduto extends javax.swing.JFrame {
                 Object[] row = new Object[5];
                 row[0] = produto.getId();
                 row[1] = produto.getNome();
-                row[2] = Produto.CATEGORIAS[produto.getCategoria()];
-                row[3] = produto.getPrecoVenda();
+                row[2] = produto.getNomeCategoria();
+                row[3] = String.format("$ %.2f", produto.getPrecoVenda());
                 modelo.addRow(row);
             }
         }

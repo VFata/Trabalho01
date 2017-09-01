@@ -6,7 +6,7 @@
 package view;
 
 import controller.ControleProduto;
-import java.awt.Image;
+import java.awt.Graphics2D;
 import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -32,6 +32,8 @@ public class FormProduto extends javax.swing.JFrame {
     
     /**
      * Creates new form FormProduto
+     * @param modo MODO_CRIAR or MODO_ALTERAR
+     * @param id ID do produto quando usando MODO_ALTERAR
      */
     public FormProduto(int modo, int id) {
         initComponents();
@@ -114,7 +116,7 @@ public class FormProduto extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(txtNome)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -136,7 +138,7 @@ public class FormProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -167,7 +169,8 @@ public class FormProduto extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setPreferredSize(new java.awt.Dimension(150, 150));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Imagem");
@@ -176,11 +179,11 @@ public class FormProduto extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -192,16 +195,17 @@ public class FormProduto extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton2))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(101, 111, Short.MAX_VALUE))
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -234,17 +238,51 @@ public class FormProduto extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagem", "jpg", "png");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagem", "jpg", "png", "gif");
         
         fileChooser.setDialogTitle("Procurar imagem");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setFileFilter(filter);
         
+        String imagemVelha = produto.getImagem();
+        
         int acao = fileChooser.showOpenDialog(this);
         
         if (acao == JFileChooser.APPROVE_OPTION) {
-           produto.setImagem(fileChooser.getSelectedFile().getPath());
-           trocaImagem();
+            try {
+                String temp = fileChooser.getSelectedFile().getCanonicalPath();
+                BufferedImage origImg = ImageIO.read(new File(temp));
+                float origWidth = origImg.getWidth();
+                float origHeight = origImg.getHeight();
+                int width, height;
+                if (origWidth >= origHeight) {
+                    width = 140;
+                    height = (int) ((width/origWidth) * origHeight);
+                } else {
+                    height = 140;
+                    width = (int) ((height/origHeight) * origWidth);
+                }
+                
+                BufferedImage img = new BufferedImage(width, height, origImg.getType());
+                Graphics2D g2d = img.createGraphics();
+                g2d.drawImage(origImg, 0, 0, width, height, null);
+                g2d.dispose();
+                
+                File dirPath = new File("./images");
+                dirPath.mkdir();
+                String path = dirPath.getCanonicalPath();
+
+                File saveImg = new File(path + File.separator + (temp + "@" +System.currentTimeMillis()).hashCode() + ".png");
+                ImageIO.write(img, "png", saveImg);
+                
+                produto.setImagem(saveImg.getCanonicalPath());
+                (new File(imagemVelha)).delete();
+            } catch (Exception ex) {
+                Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+                produto.setImagem(null);
+            }
+            
+            trocaImagem();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -287,11 +325,11 @@ public class FormProduto extends javax.swing.JFrame {
     private void trocaImagem() {
         try {
             BufferedImage img = ImageIO.read(new File(produto.getImagem()));
-            ImageIcon icon = new ImageIcon(img.getScaledInstance(140, 140, Image.SCALE_AREA_AVERAGING));
+            ImageIcon icon = new ImageIcon(img);
             jLabel1.setText("");
             jLabel1.setIcon(icon);
         } catch (IOException ex) {
-            produto.setImagem(null);
+            //produto.setImagem(null);
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
         }

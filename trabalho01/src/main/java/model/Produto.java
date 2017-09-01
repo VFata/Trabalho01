@@ -88,6 +88,10 @@ public class Produto {
     public void setCategoria(int categoria) {
         this.categoria = categoria;
     }
+    
+    public String getNomeCategoria() {
+        return CATEGORIAS[categoria];
+    }
 
     public String getImagem() {
         return imagem;

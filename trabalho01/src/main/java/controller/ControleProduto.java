@@ -8,6 +8,7 @@ package controller;
 import java.util.List;
 import model.Produto;
 import bd.DAOProduto;
+import java.io.File;
 
 /**
  *
@@ -36,7 +37,9 @@ public class ControleProduto {
     }
 
     public static void excluir(int id) throws Exception {
+        String imgPath = obterProduto(id).getImagem();
         DAOProduto.excluir(id);
+        (new File(imgPath)).delete();
     }
 
     public static List<Produto> listar(String nomeProduto) throws Exception {
