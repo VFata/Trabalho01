@@ -296,13 +296,13 @@ public class FormProduto extends javax.swing.JFrame {
             produto.setPrecoCompra( ((Number) txtValorCompra.getValue()).doubleValue() );
         } catch (NumberFormatException ex) {
             produto.setPrecoCompra(-1d);
-            Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             produto.setPrecoVenda( ((Number) txtValorVenda.getValue()).doubleValue() );
         } catch (NumberFormatException ex) {
             produto.setPrecoVenda(-1d);
-            Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(FormProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
         produto.setCategoria(comboCategoria.getSelectedIndex());
         
